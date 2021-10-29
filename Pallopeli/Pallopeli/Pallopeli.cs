@@ -11,21 +11,22 @@ public class Pallopeli : PhysicsGame
     Vector nopeusVasen = new Vector(-200, 0);
     Vector nopeusOikea = new Vector(200, 0);
 
-    PhysicsObject pelipallo;
+    PhysicsObject pudotuspallo;
     PhysicsObject kauha;
     public override void Begin()
     {
-        LuoKenttä();
+        LuoKentta();
         AsetaOhjaimet();
 
-        MultiSelectWindow alkuvalikko = new MultiSelectWindow("Pelin alkuvalikko", "Aloita peli", "Lopeta");
+        MultiSelectWindow alkuvalikko = new MultiSelectWindow("Pallopeli", "Aloita peli", "Lopeta");
         alkuvalikko.AddItemHandler(1, Exit);
         alkuvalikko.AddItemHandler(0, AloitaPeli);
         Add(alkuvalikko);
     }
 
-    public void LuoKenttä()
+    public void LuoKentta()
     {
+
         Level.CreateBorders(1.0, false);
 
         Level.Background.Color = Color.Black;
@@ -45,10 +46,11 @@ public class Pallopeli : PhysicsGame
                 pallo.Shape = Shape.Circle;
                 pallo.Color = Color.Gray;
                 pallo.Position = paikka;
+                pallo.Restitution = 1.0;
                 Add(pallo);
             }
 
-        pelipallo = LuoPelipallo(0.0, Level.Bottom + 150);
+
         kauha = LuoKauha(0.0, Level.Bottom + 10);
 
         Camera.ZoomToLevel();
@@ -67,23 +69,22 @@ public class Pallopeli : PhysicsGame
         return kauha;
     }
 
-    PhysicsObject LuoPelipallo(double x, double y)
+    PhysicsObject LuoPudotuspallo(double x)
     {
-        pelipallo = PhysicsObject.CreateStaticObject(15, 15);
-        pelipallo.Shape = Shape.Circle;
-        pelipallo.Color = Color.White;
-        pelipallo.Restitution = 1.0;
-        pelipallo.Mass = 1.0;
-        pelipallo.X = x;
-        pelipallo.Y = y;
-        Add(pelipallo);
-        return pelipallo;
+        pudotuspallo = new PhysicsObject(15, 15);
+        pudotuspallo.Shape = Shape.Circle;
+        pudotuspallo.Color = Color.White;
+        pudotuspallo.X = x;
+        pudotuspallo.Y = 390;
+        pudotuspallo.Restitution = 1.0;
+        Add(pudotuspallo);
+        return pudotuspallo;
     }
 
     void AloitaPeli()
     {
-        Vector impulssi = new Vector(500.0, 0.0);
-        pelipallo.Hit(impulssi * pelipallo.Mass);
+        LuoPudotuspallo(20);
+        pudotuspallo.Hit(new Vector(-60, -80));
     }
 
     public void AsetaOhjaimet()
