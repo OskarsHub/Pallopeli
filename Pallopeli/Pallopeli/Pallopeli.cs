@@ -12,7 +12,10 @@ using System.Collections.Generic;
 
 public class Pallopeli : PhysicsGame
 {
-    Image kauhaKuva = LoadImage("kauha.png");
+    /// <summary>
+    /// kauhalle kuva
+    /// </summary>
+    private Image kauhaKuva = LoadImage("kauha.png");
 
     /// <summary>
     /// kauhan vasemmalle liikuttamista varten tarvittava vektori
@@ -39,7 +42,7 @@ public class Pallopeli : PhysicsGame
     /// <summary>
     /// elämäpistelaskuri
     /// </summary>
-    IntMeter elamat;
+    private IntMeter elamat;
 
 
     public override void Begin()
@@ -52,6 +55,7 @@ public class Pallopeli : PhysicsGame
         alkuvalikko.AddItemHandler(0, AloitaPeli);
         Add(alkuvalikko);
     }
+
 
     /// <summary>
     /// Luodaan kenttä, kauhat sekä elämäpistelaskuri
@@ -75,28 +79,13 @@ public class Pallopeli : PhysicsGame
         //luo kentän
         ruudut.Execute(34.2, 25);
 
-
-        /// <summary>
-        /// luodaan kenttää TitleMapin mukaan
-        /// </summary>
-        void LuoPallo(Vector paikka, double leveys, double korkeus)
-        {
-            PhysicsObject pallo = PhysicsObject.CreateStaticObject(40, 40);
-            pallo.Shape = Shape.Circle;
-            pallo.Color = Color.Gray;
-            pallo.Position = paikka;
-            pallo.Restitution = 1.0;
-            pallo.KineticFriction = 0.0;
-            Add(pallo);
-        }
-
         LuoElamat();
 
         kauha = LuoKauha(0.0, Level.Bottom + 10);
 
         Camera.ZoomToLevel();
-
     }
+
 
     /// <summary>
     /// luodaan elämäpistelaskuri
@@ -113,6 +102,25 @@ public class Pallopeli : PhysicsGame
         elamanaytto.BindTo(elamat);
         Add(elamanaytto);
     }
+
+
+    /// <summary>
+    /// Luodaan peliin pallo
+    /// </summary>
+    /// <param name="paikka">pallon paikka</param>
+    /// <param name="leveys">pallon leveys</param>
+    /// <param name="korkeus">pallon korkeus</param>
+    private void LuoPallo(Vector paikka, double leveys, double korkeus)
+    {
+        PhysicsObject pallo = PhysicsObject.CreateStaticObject(40, 40);
+        pallo.Shape = Shape.Circle;
+        pallo.Color = Color.Gray;
+        pallo.Position = paikka;
+        pallo.Restitution = 1.0;
+        pallo.KineticFriction = 0.0;
+        Add(pallo);
+    }
+
 
     /// <summary>
     /// luodaan peliin kauha
